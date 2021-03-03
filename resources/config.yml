@@ -1,0 +1,25 @@
+# Configuration file for ItemCooldowns by Rushil13579 | Rushil#2326
+
+# Version (DONT TOUCH)
+version: 1.0.0
+
+# List of all cooldowns
+# "ItemID:Meta": CooldownTime (in seconds)
+# This list can be extended infinitely
+# You can even add throwables item id and meta to add a cooldown on it
+# Eg: "466:0": 10 (will add a 10s cooldown on consuming a enchanted golden apple)
+# Eg: "368:0": 10 (will add a 10s cooldown on throwing a ender pearl)
+# This works will all consumables & throwables
+cooldowns:
+  "373:11": 300 # Jump 2 potion cooldown for 300 seconds aka 5 minutes
+  "466:0": 30 # Enchanted golden apple cooldown for 30 seconds
+  "368:0": 15 # Ender pearl cooldown for 15 seconds
+
+# Message sent when a player is on cooldown
+# {PLUGIN_PREFIX} -> Plugins' prefix
+# {HOURS} -> Hours left for the cooldown to end
+# {MINUTES} -> Minutes left for the cooldown to end
+# {SECONDS} -> Seconds left for the cooldown to end
+# \n -> Line break
+# Use '&' for color
+cooldown-msg: "{PLUGIN_PREFIX} &cYou are on cooldown for {HOURS} hours {MINUTES} minutes {SECONDS} seconds"
