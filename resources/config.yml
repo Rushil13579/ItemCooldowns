@@ -3,6 +3,8 @@
 # Version (DONT TOUCH)
 version: 1.0.0
 
+# To bypass all cooldowns give the permission itemcooldowns.bypass to the player
+
 # List of all cooldowns
 # "ItemID:Meta": CooldownTime (in seconds)
 # This list can be extended infinitely
@@ -14,6 +16,11 @@ cooldowns:
   "373:11": 300 # Jump 2 potion cooldown for 300 seconds aka 5 minutes
   "466:0": 30 # Enchanted golden apple cooldown for 30 seconds
   "368:0": 15 # Ender pearl cooldown for 15 seconds
+
+# Worlds in which players will be exempted from all cooldowns
+exempted-worlds:
+  - world1
+  - world2
 
 # Message sent when a player is on cooldown
 # {PLUGIN_PREFIX} -> Plugins' prefix

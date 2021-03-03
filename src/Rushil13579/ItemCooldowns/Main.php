@@ -78,6 +78,14 @@ class Main extends PluginBase implements Listener {
   }
 
   public function cooldownCheck($player, $item){
+    if($player->hasPermission('itemcooldowns.bypass')){
+      return null;
+    }
+
+    if(in_array($player->getLevel()->getName(), $this->cfg->get('exempted-worlds'))){
+      return null;
+    }
+
     $itemData = $item->getId() . ':' . $item->getDamage();
     $config = $this->cfg->get('cooldowns');
 
