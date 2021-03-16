@@ -1,7 +1,7 @@
 # Configuration file for ItemCooldowns by Rushil13579 | Rushil#2326
 
 # Version (DONT TOUCH)
-version: 1.0.0
+version: 1.1.0
 
 # Set this to false to disable bypass permissions, true to enable
 permission-required: true

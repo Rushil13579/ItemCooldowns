@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener {
   }
 
   public function versionCheck(){
-    if($this->cfg->get('version') !== '1.0.0'){
+    if($this->cfg->get('version') !== '1.1.0'){
       $this->getLogger()->warning('§cThe configuration file is outdated and due to this the plugin might malfunction! Please delete the current configruation file and restart your server to install the latest one');
     }
   }
