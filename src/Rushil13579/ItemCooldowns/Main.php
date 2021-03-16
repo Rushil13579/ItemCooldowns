@@ -71,6 +71,10 @@ class Main extends PluginBase implements Listener {
     $player = $event->getPlayer();
     $item = $event->getItem();
 
+    if($item instanceof Consumable){
+      return null;
+    }
+
     $check = $this->cooldownCheck($player, $item);
     if($check !== null){
       $event->setCancelled();
@@ -78,8 +82,10 @@ class Main extends PluginBase implements Listener {
   }
 
   public function cooldownCheck($player, $item){
-    if($player->hasPermission('itemcooldowns.bypass')){
-      return null;
+    if($this->cfg->get('permission-required') == 'true'){
+      if($player->hasPermission('itemcooldowns.bypass')){
+        return null;
+      }
     }
 
     if(in_array($player->getLevel()->getName(), $this->cfg->get('exempted-worlds'))){
@@ -88,10 +94,6 @@ class Main extends PluginBase implements Listener {
 
     $itemData = $item->getId() . ':' . $item->getDamage();
     $config = $this->cfg->get('cooldowns');
-
-    if($item instanceof Consumable){
-      return null;
-    }
 
     if(!isset($config[$itemData])){
       return null;

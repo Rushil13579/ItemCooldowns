@@ -3,6 +3,9 @@
 # Version (DONT TOUCH)
 version: 1.0.0
 
+# Set this to false to disable bypass permissions, true to enable
+permission-required: true
+
 # To bypass all cooldowns give the permission itemcooldowns.bypass to the player
 
 # List of all cooldowns
