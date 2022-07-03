@@ -9,7 +9,7 @@ A plugin for Pocketmine-MP 4.0.0 and above that allows administrators to set coo
 
 <a href="https://discord.gg/YyE9XFckqb"><img src="https://img.shields.io/discord/837701868649709568?label=discord&color=7289DA&logo=discord" alt="Discord" /></a>
 
-## Features
+## 💡 Features
 
 - Can set cooldowns for any and all consumables & throwables!
 - Eg: Ender Pearls, Golden Apples, Speed Potions, Snowballs etc
@@ -25,5 +25,5 @@ A plugin for Pocketmine-MP 4.0.0 and above that allows administrators to set coo
 | Poggit | fernanACM | [Poggit](https://poggit.pmmp.io/ci/fernanACM)
 ****
 
-## Credits
+### ✔ Credits
 - [Rushil13579](https://github.com/Rushil13579)
