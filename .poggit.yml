@@ -1,10 +1,11 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/Rushil13579/ItemCooldowns
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fernanACM/ItemCooldowns
 build-by-default: true
 branches:
-- main
+- PM4
 projects:
   ItemCooldowns:
     path: ""
     icon: Logo.png
-    
+    lint:
+      phpstan: false
 ...

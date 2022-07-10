@@ -2,16 +2,17 @@
 
 namespace Rushil13579\ItemCooldowns;
 
-use pocketmine\{Server, Player};
+use pocketmine\Server;
+use pocketmine\player\Player;
 
 use pocketmine\plugin\PluginBase;
-
 use pocketmine\event\Listener;
+# Events
+use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
-use pocketmine\item\Consumable;
-
+use pocketmine\item\ConsumableItem;
 use pocketmine\utils\{Config, TextFormat as C};
 
 class Main extends PluginBase implements Listener {
@@ -20,7 +21,7 @@ class Main extends PluginBase implements Listener {
 
   public const PLUGIN_PREFIX = '§3[§bItemCooldowns§3]';
 
-  public function onEnable(){
+  public function onEnable(): void{
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
     $this->saveDefaultConfig();
@@ -31,17 +32,7 @@ class Main extends PluginBase implements Listener {
     $this->versionCheck();
   }
 
-  public function versionCheck(){
-    if($this->cfg->get('version') !== '1.1.0'){
-      $this->getLogger()->warning('§cThe configuration file is outdated and due to this the plugin might malfunction! Please delete the current configruation file and restart your server to install the latest one');
-    }
-  }
-
-  /**
-  *@priority HIGHEST
-  **/
-
-  public function onConsume(PlayerItemConsumeEvent $event){
+  public function onConsume(PlayerItemConsumeEvent $event) {
     if($event->isCancelled()){
       return null;
     }
@@ -51,34 +42,54 @@ class Main extends PluginBase implements Listener {
 
     $check = $this->cooldownCheck($player, $item);
     if($check !== null){
-      $event->setCancelled();
+      $event->cancel();
     }
   }
-
-  /**
-  *@priority HIGHEST
-  **/
+  
+  public function versionCheck(): void{
+    if($this->cfg->get('version') !== '1.1.0'){
+      $this->getLogger()->warning('§cThe configuration file is outdated and due to this the plugin might malfunction! Please delete the current configruation file and restart your server to install the latest one');
+    }
+  }
 
   public function onInteract(PlayerInteractEvent $event){
     if($event->isCancelled()){
       return null;
     }
 
-    if($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_AIR and $event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK){
+    if($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK){
       return null;
     }
 
     $player = $event->getPlayer();
     $item = $event->getItem();
 
-    if($item instanceof Consumable){
+    if($item instanceof ConsumableItem){
       return null;
     }
 
     $check = $this->cooldownCheck($player, $item);
     if($check !== null){
-      $event->setCancelled();
+      $event->cancel();
     }
+  }
+
+  public function onUse(PlayerItemUseEvent $event){
+      if($event->isCancelled()){
+          return null;
+      }
+
+      $player = $event->getPlayer();
+      $item = $event->getItem();
+
+      if($item instanceof ConsumableItem){
+          return null;
+      }
+
+      $check = $this->cooldownCheck($player, $item);
+      if($check !== null){
+          $event->cancel();
+      }
   }
 
   public function cooldownCheck($player, $item){
@@ -88,11 +99,11 @@ class Main extends PluginBase implements Listener {
       }
     }
 
-    if(in_array($player->getLevel()->getName(), $this->cfg->get('exempted-worlds'))){
+    if(in_array($player->getPosition()->getWorld()->getDisplayName(), $this->cfg->get('exempted-worlds'))){
       return null;
     }
 
-    $itemData = $item->getId() . ':' . $item->getDamage();
+    $itemData = $item->getId() . ':' . $item->getMeta();
     $config = $this->cfg->get('cooldowns');
 
     if(!isset($config[$itemData])){
@@ -114,6 +125,8 @@ class Main extends PluginBase implements Listener {
       $player->sendMessage(C::colorize($msg));
       return ' ';
     }
+
+    return null;
   }
 
   public function getCooldown($player, $item){
@@ -124,7 +137,7 @@ class Main extends PluginBase implements Listener {
     }
 
     $file = new Config($this->getDataFolder() . 'Cooldowns/' . strtolower($player->getName()), Config::YAML);
-    $itemData = $item->getId() . ':' . $item->getDamage();
+    $itemData = $item->getId() . ':' . $item->getMeta();
 
     if(!$file->exists($itemData)){
       $this->addCooldown($player, $item);
@@ -143,7 +156,7 @@ class Main extends PluginBase implements Listener {
 
   public function addCooldown($player, $item){
     $file = new Config($this->getDataFolder() . 'Cooldowns/' . strtolower($player->getName()), Config::YAML);
-    $itemData = $item->getId() . ':' . $item->getDamage();
+    $itemData = $item->getId() . ':' . $item->getMeta();
     $config = $this->cfg->get('cooldowns');
     $time = time() + $config[$itemData];
     $file->set($itemData, $time);
